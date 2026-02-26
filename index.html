@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LuqiOffical · Free Program</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan: #00f5ff;
+      --cyan2: #00c8d4;
+      --violet: #7b2fff;
+      --violet2: #a855f7;
+      --green: #4ade80;
+      --bg: #030712;
+      --surface: #0d1117;
+      --surface2: #161b27;
+      --border: rgba(0,245,255,0.12);
+      --text: #e2e8f0;
+      --muted: #4a5568;
+      --muted2: #718096;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 20px 80px;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(130px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 { width: 700px; height: 700px; background: rgba(123,47,255,0.11); top: -250px; left: -250px; animation: drift1 14s ease-in-out infinite alternate; }
+    .orb-2 { width: 600px; height: 600px; background: rgba(0,245,255,0.07); bottom: -200px; right: -200px; animation: drift2 17s ease-in-out infinite alternate; }
+
+    @keyframes drift1 { to { transform: translate(80px, 100px); } }
+    @keyframes drift2 { to { transform: translate(-70px, -70px); } }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 700px;
+      padding: 64px 0 52px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.1s forwards;
+    }
+
+    .brand-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      border: 1px solid var(--border);
+      background: rgba(0,245,255,0.04);
+      padding: 7px 20px;
+      border-radius: 100px;
+      margin-bottom: 30px;
+    }
+
+    .brand-tag .dot {
+      width: 6px; height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cyan);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.7)} }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(38px, 7vw, 60px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.025em;
+      margin-bottom: 18px;
+    }
+
+    h1 .line1 { display: block; color: var(--text); }
+    h1 .line2 {
+      display: block;
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--violet2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .brand-desc {
+      font-size: 14.5px;
+      line-height: 1.85;
+      color: var(--muted2);
+      max-width: 520px;
+      margin: 0 auto 24px;
+    }
+
+    .pillars {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.38s forwards;
+    }
+
+    .pillar {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 7px 15px;
+      border-radius: 7px;
+      border: 1px solid;
+    }
+
+    .p1 { color: var(--cyan);   border-color: rgba(0,245,255,0.22);  background: rgba(0,245,255,0.05); }
+    .p2 { color: var(--violet2);border-color: rgba(168,85,247,0.22); background: rgba(168,85,247,0.05); }
+    .p3 { color: var(--green);  border-color: rgba(74,222,128,0.22); background: rgba(74,222,128,0.05); }
+
+    /* ── CARD ── */
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      max-width: 700px;
+      width: 100%;
+      margin-top: 40px;
+      padding: 52px 56px 48px;
+      box-shadow: 0 0 0 1px rgba(0,245,255,0.03), 0 40px 90px rgba(0,0,0,0.65);
+      opacity: 0;
+      animation: fadeUp 0.8s 0.48s forwards;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 8%; right: 8%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--violet2), transparent);
+    }
+
+    .form-header {
+      margin-bottom: 32px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .form-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .form-header p { font-size: 13px; color: var(--muted2); }
+
+    .free-badge {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(0,245,255,0.1), rgba(123,47,255,0.1));
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 16px;
+      text-align: center;
+    }
+
+    .free-badge .big { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--cyan); display: block; }
+    .free-badge .small { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted2); }
+
+    .req-note { font-size: 11px; color: var(--muted); margin-bottom: 26px; }
+    .req-note span { color: var(--cyan); }
+
+    .fields { display: flex; flex-direction: column; gap: 20px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+
+    label {
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    label .req { color: var(--cyan); font-size: 14px; line-height: 1; }
+    label .opt { color: var(--muted); font-size: 9px; letter-spacing: 0.06em; text-transform: none; font-weight: 300; }
+
+    input, textarea, select {
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder { color: rgba(74,85,104,0.9); }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(0,245,255,0.38);
+      background: rgba(0,245,255,0.02);
+      box-shadow: 0 0 0 3px rgba(0,245,255,0.06);
+    }
+
+    input.error, textarea.error, select.error {
+      border-color: rgba(248,113,113,0.5) !important;
+      box-shadow: 0 0 0 3px rgba(248,113,113,0.07) !important;
+    }
+
+    select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23718096' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+
+    textarea { min-height: 110px; resize: vertical; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: linear-gradient(135deg, rgba(0,245,255,0.03) 0%, rgba(123,47,255,0.03) 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 22px 20px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-box::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--cyan), var(--violet2));
+      border-radius: 3px 0 0 3px;
+    }
+
+    .info-box-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 9px;
+    }
+
+    .info-box p {
+      font-size: 13.5px;
+      line-height: 1.8;
+      color: var(--muted2);
+    }
+
+    /* ── BUTTON ── */
+    .btn {
+      width: 100%;
+      padding: 16px 20px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--cyan2) 0%, var(--violet) 100%);
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 30px rgba(0,200,212,0.18), 0 4px 30px rgba(123,47,255,0.14);
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 44px rgba(0,200,212,0.28), 0 10px 44px rgba(123,47,255,0.2); }
+    .btn:hover::after { opacity: 1; }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .form-footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .form-footer span { color: var(--muted2); }
+
+    /* ── SUCCESS ── */
+    #success {
+      display: none;
+      text-align: center;
+      padding: 64px 20px;
+    }
+
+    .success-ring {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0,245,255,0.08), rgba(123,47,255,0.08));
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px;
+      font-size: 30px;
+      box-shadow: 0 0 40px rgba(0,245,255,0.12);
+    }
+
+    #success h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--cyan), var(--violet2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 14px;
+    }
+
+    #success p { font-size: 14px; color: var(--muted2); line-height: 1.8; max-width: 380px; margin: 0 auto; }
+
+    /* ── STATS ── */
+    .stats {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.68s forwards;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 16px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--cyan), var(--violet2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label { font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 5px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 580px) {
+      .card { padding: 32px 22px 28px; }
+      .row { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .form-header { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <header>
+    <div class="brand-tag"><span class="dot"></span> LuqiOffical · Free Program Application</div>
+    <h1>
+      <span class="line1">Scale Your Brand.</span>
+      <span class="line2">Build Real Wealth.</span>
+    </h1>
+    <p class="brand-desc">
+      Personalised strategies across digital marketing, smart investing, and financial growth — engineered specifically for your brand, your goals, and your future.
+    </p>
+    <div class="pillars">
+      <span class="pillar p1">⚡ Digital Marketing</span>
+      <span class="pillar p2">📈 Investing Strategy</span>
+      <span class="pillar p3">💰 Financial Tips</span>
+    </div>
+  </header>
+
+  <div class="card">
+    <div id="form-wrap">
+      <div class="form-header">
+        <div>
+          <h2>Apply for Your Free Program</h2>
+          <p>Tell me about your brand and goals — I'll build a personalised roadmap for you.</p>
+        </div>
+        <div class="free-badge">
+          <span class="big">FREE</span>
+          <span class="small">No cost · No catch</span>
+        </div>
+      </div>
+
+      <p class="req-note"><span>*</span> Indicates required question</p>
+
+      <form id="contact-form" novalidate>
+        <div class="fields">
+
+          <div class="row">
+            <div class="field">
+              <label>Business / Personal Name <span class="req">*</span></label>
+              <input type="text" id="name" placeholder="Your name or brand" required/>
+            </div>
+            <div class="field">
+              <label>Contact Email <span class="req">*</span></label>
+              <input type="email" id="email" placeholder="hello@yourbrand.com" required/>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label>Phone Number <span class="opt">(optional)</span></label>
+              <input type="tel" id="phone" placeholder="+1 000 000 0000"/>
+            </div>
+            <div class="field">
+              <label>Current Stage <span class="req">*</span></label>
+              <select id="stage" required>
+                <option value="" disabled selected>Select your stage…</option>
+                <option>Just starting out</option>
+                <option>Growing (0–10k followers)</option>
+                <option>Established (10k–100k)</option>
+                <option>Scaling (100k+)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Current Social Media Links <span class="req">*</span></label>
+            <input type="text" id="social" placeholder="Instagram, TikTok, LinkedIn, YouTube, X…" required/>
+          </div>
+
+          <div class="field">
+            <label>Primary Focus Area <span class="req">*</span></label>
+            <select id="focus" required>
+              <option value="" disabled selected>What do you need most help with?</option>
+              <option>Digital Marketing &amp; Content Growth</option>
+              <option>Investment Strategy &amp; Portfolio Building</option>
+              <option>Financial Planning &amp; Money Management</option>
+              <option>All three — full brand &amp; wealth program</option>
+              <option>Personal Branding &amp; Monetisation</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Goals / What You Want To Improve <span class="req">*</span></label>
+            <textarea id="goals" placeholder="Describe your goals — grow your audience, build passive income, improve financial literacy, launch a product, scale your marketing…" required></textarea>
+          </div>
+
+          <div class="field">
+            <label>Notes / Questions <span class="opt">(optional)</span></label>
+            <textarea id="notes" placeholder="Any additional questions, context, or anything else you'd like me to know…" style="min-height:80px"></textarea>
+          </div>
+
+          <div class="info-box">
+            <div class="info-box-label">How Will I Receive The Program?</div>
+            <p>After submitting, a meeting link will be sent to your email so I can learn more about your personal brand and business. This helps me build a fully personalised program tailored to you — which will then be delivered straight to your inbox.</p>
+          </div>
+
+          <button type="submit" class="btn" id="submit-btn">
+            Submit My Application →
+          </button>
+
+        </div>
+      </form>
+
+      <div class="form-footer">
+        Your information is kept private and never shared with third parties.<br/>
+        <span>This form is managed exclusively by LuqiOffical.</span>
+      </div>
+    </div>
+
+    <div id="success">
+      <div class="success-ring">✦</div>
+      <h2>You're In.</h2>
+      <p>Your application has been received. A meeting link will arrive in your inbox shortly — let's build something extraordinary together.</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Personalised</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3-in-1</div>
+      <div class="stat-label">Marketing · Investing · Finance</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">Free</div>
+      <div class="stat-label">No cost, no catch</div>
+    </div>
+  </div>
+
+  <!--
+  ──────────────────────────────────────────────────────
+  EMAIL SETUP — FORMSPREE (free, works on GitHub Pages)
+  ──────────────────────────────────────────────────────
+  1. Go to https://formspree.io and sign up free
+  2. Create a new form → copy your unique endpoint URL
+     It looks like: https://formspree.io/f/xxxxxxxx
+  3. Replace YOUR_FORM_ID below with your actual ID
+  4. Save, push to GitHub Pages — done! Submissions go
+     straight to your inbox.
+  ──────────────────────────────────────────────────────
+  -->
+  <script>
+    const FORMSPREE = 'https://formspree.io/f/YOUR_FORM_ID'; // ← Replace this
+
+    const form = document.getElementById('contact-form');
+    const btn  = document.getElementById('submit-btn');
+    const wrap = document.getElementById('form-wrap');
+    const succ = document.getElementById('success');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const name   = v('name');
+      const email  = v('email');
+      const stage  = v('stage');
+      const social = v('social');
+      const focus  = v('focus');
+      const goals  = v('goals');
+
+      let valid = true;
+      if (!name)                       { markErr('name');   valid = false; }
+      if (!email || !validEmail(email)){ markErr('email');  valid = false; }
+      if (!stage)                      { markErr('stage');  valid = false; }
+      if (!social)                     { markErr('social'); valid = false; }
+      if (!focus)                      { markErr('focus');  valid = false; }
+      if (!goals)                      { markErr('goals');  valid = false; }
+
+      if (!valid) { shakeBtn(); return; }
+
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(FORMSPREE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ name, email, phone: v('phone'), stage, social, focus, goals, notes: v('notes') }),
+        });
+
+        if (res.ok) {
+          wrap.style.transition = '0.4s ease';
+          wrap.style.opacity = '0';
+          wrap.style.transform = 'scale(0.96)';
+          setTimeout(() => { wrap.style.display = 'none'; succ.style.display = 'block'; }, 380);
+        } else { throw new Error(); }
+
+      } catch {
+        btn.textContent = 'Submit My Application →';
+        btn.disabled = false;
+        alert('Something went wrong — please try again or reach out directly.');
+      }
+    });
+
+    const v = id => document.getElementById(id)?.value?.trim() || '';
+    const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+
+    function markErr(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.add('error');
+      el.addEventListener('input',  () => el.classList.remove('error'), { once: true });
+      el.addEventListener('change', () => el.classList.remove('error'), { once: true });
+    }
+
+    function clearErrors() {
+      document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+    }
+
+    function shakeBtn() {
+      btn.animate([
+        {transform:'translateX(0)'},{transform:'translateX(-7px)'},{transform:'translateX(7px)'},
+        {transform:'translateX(-4px)'},{transform:'translateX(4px)'},{transform:'translateX(0)'}
+      ], { duration: 420, easing: 'ease-in-out' });
+    }
+  </script>
+</body>
+</html>
